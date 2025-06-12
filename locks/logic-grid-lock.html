@@ -7,10 +7,56 @@
 </head>
 <body>
   <h1>Logic Grid Lock</h1>
-  <p class="directions">Instructions for how to solve or use this lock go here.</p>
-  <!-- Puzzle-specific content would be inserted here -->
+  <p class="directions">
+    Toggle the switches into the correct on/off pattern. Then press submit.
+  </p>
+
+  <div style="display:flex;gap:10px;justify-content:center;" id="levers"></div>
+
+  <div style="margin: 10px;">
+    <button onclick="checkLogic()">Submit</button>
+    <button onclick="setupLevers()">⟲ Reset</button>
+  </div>
+
+  <p id="result"></p>
+
   <!-- Replace with your own sound files that you uploaded into the assets folder -->
   <audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
   <audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+
+  <script>
+    const PATTERN = [1, 0, 1, 1, 0, 0];
+
+    function setupLevers() {
+      const levers = document.getElementById("levers");
+      levers.innerHTML = "";
+      for (let i = 0; i < PATTERN.length; i++) {
+        const div = document.createElement("div");
+        div.className = "lever";
+        div.dataset.state = "0";
+        div.textContent = "⬛";
+        div.style = "font-size:2em;cursor:pointer;";
+        div.onclick = () => {
+          div.dataset.state = div.dataset.state === "1" ? "0" : "1";
+          div.textContent = div.dataset.state === "1" ? "🟩" : "⬛";
+        };
+        levers.appendChild(div);
+      }
+    }
+
+    function checkLogic() {
+      const guess = Array.from(document.querySelectorAll(".lever")).map(l => +l.dataset.state);
+      const result = document.getElementById("result");
+      if (JSON.stringify(guess) === JSON.stringify(PATTERN)) {
+        document.getElementById("success").play();
+        result.textContent = "✅ Correct!";
+      } else {
+        document.getElementById("fail").play();
+        result.textContent = "❌ Try again!";
+      }
+    }
+
+    setupLevers();
+  </script>
 </body>
 </html>
