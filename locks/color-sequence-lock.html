@@ -7,10 +7,79 @@
 </head>
 <body>
   <h1>Color Sequence Lock</h1>
-  <p class="directions">Instructions for how to solve or use this lock go here.</p>
-  <!-- Puzzle-specific content would be inserted here -->
+  <p class="directions">
+    Click the shapes in the correct order to form the color sequence. Then press submit.
+  </p>
+
+  <div id="colorTracker" style="display: flex; gap: 10px; justify-content: center; margin: 10px;"></div>
+
+  <div style="display: flex; gap: 10px; justify-content: center;">
+    <div onclick="add('red','square')" style="width: 50px; height: 50px; background: red;"></div>
+    <div onclick="add('blue','circle')" style="width: 50px; height: 50px; background: blue; border-radius: 50%;"></div>
+    <div onclick="add('green','triangle')" style="width: 0; height: 0; border-left: 25px solid transparent; border-right: 25px solid transparent; border-bottom: 50px solid green;"></div>
+    <div onclick="add('yellow','star')" style="font-size: 2em;">⭐</div>
+  </div>
+
+  <div style="margin: 10px;">
+    <button onclick="checkColor()">Submit</button>
+    <button onclick="clearColor()">⟲</button>
+  </div>
+
+  <p id="result"></p>
+
   <!-- Replace with your own sound files that you uploaded into the assets folder -->
   <audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
   <audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+
+  <script>
+    let pattern = [];
+    const CORRECT = ["red", "blue", "green", "yellow"];
+
+    function add(color, shape) {
+      pattern.push(color);
+      const track = document.getElementById("colorTracker");
+      const box = document.createElement("div");
+      box.style.width = "30px";
+      box.style.height = "30px";
+
+      if (shape === "triangle") {
+        box.style.width = 0;
+        box.style.height = 0;
+        box.style.borderLeft = "15px solid transparent";
+        box.style.borderRight = "15px solid transparent";
+        box.style.borderBottom = "30px solid " + color;
+        box.style.background = "none";
+      } else if (shape === "star") {
+        box.textContent = "⭐";
+        box.style.fontSize = "1.2em";
+        box.style.color = color;
+        box.style.background = "none";
+        box.style.textAlign = "center";
+        box.style.lineHeight = "30px";
+      } else {
+        box.style.background = color;
+        if (shape === "circle") box.style.borderRadius = "50%";
+      }
+
+      track.appendChild(box);
+    }
+
+    function clearColor() {
+      pattern = [];
+      document.getElementById("colorTracker").innerHTML = "";
+      document.getElementById("result").textContent = "";
+    }
+
+    function checkColor() {
+      const result = document.getElementById("result");
+      if (JSON.stringify(pattern) === JSON.stringify(CORRECT)) {
+        document.getElementById("success").play();
+        result.textContent = "✅ Correct!";
+      } else {
+        document.getElementById("fail").play();
+        result.textContent = "❌ Try again!";
+      }
+    }
+  </script>
 </body>
 </html>
