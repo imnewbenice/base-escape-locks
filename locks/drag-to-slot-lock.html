@@ -2,15 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Drag To Slot Lock</title>
+  <title>Drag-to-Slot Lock</title>
   <link rel="stylesheet" href="../theme.css">
 </head>
 <body>
-  <h1>Drag To Slot Lock</h1>
-  <p class="directions">Instructions for how to solve or use this lock go here.</p>
-  <!-- Puzzle-specific content would be inserted here -->
+  <h1>Drag-to-Slot Lock</h1>
+  <p class="directions">
+    Drag the items into the correct positions. Then press submit.
+  </p>
+
+  <div style="display:flex;justify-content:center;gap:20px;" id="dragItems"></div>
+  <div style="display:flex;justify-content:center;gap:20px;margin-top:20px;" id="slotArea"></div>
+
+  <div style="margin: 10px;">
+    <button onclick="submitDrag()">Submit</button>
+    <button onclick="setupDrag()">⟲ Reset</button>
+  </div>
+
+  <p id="result"></p>
+
   <!-- Replace with your own sound files that you uploaded into the assets folder -->
   <audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
   <audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+
+  <script>
+    const DRAG_ANSWER = ["🌞", "🌳", "🏠", "🚗"];
+
+    function setupDrag() {
+      const shuffled = DRAG_ANSWER.slice().sort(() => Math.random() - 0.5);
+      const drag = document.getElementById("dragItems");
+      const drop = document.getElementById("slotArea");
+      drag.innerHTML = "";
+      drop.innerHTML = "";
+
+      shuffled.forEach((emoji, i) => {
+        const el = document.createElement("div");
+        el.textContent = emoji;
+        el.draggable = true;
+        el.id = "drag" + i;
+        el.style = "font-size:2em;width:50px;height:50px;text-align:center;line-height:50px;border:2px solid black;";
+        el.addEventListener("dragstart", e => {
+          e.dataTransfer.setData("text", el.id);
+        });
+        drag.appendChild(el);
+      });
+
+      for (let i = 0; i < DRAG_ANSWER.length; i++) {
+        const slot = document.createElement("div");
+        slot.style = "width:50px;height:50px;border:2px dashed #aaa;";
+        slot.ondragover = e => e.preventDefault();
+        slot.ondrop = e => {
+          e.preventDefault();
+          const id = e.dataTransfer.getData("text");
+          const dragged = document.getElementById(id);
+          slot.innerHTML = "";
+          slot.appendChild(dragged.cloneNode(true));
+        };
+        drop.appendChild(slot);
+      }
+    }
+
+    function submitDrag() {
+      let guess = [];
+      document.querySelectorAll("#slotArea > div").forEach(s => {
+        const c = s.textContent;
+        guess.push(c);
+      });
+
+      const result = document.getElementById("result");
+      if (JSON.stringify(guess) === JSON.stringify(DRAG_ANSWER)) {
+        document.getElementById("success").play();
+        result.textContent = "✅ Correct!";
+      } else {
+        document.getElementById("fail").play();
+        result.textContent = "❌ Try again!";
+      }
+    }
+
+    setupDrag();
+  </script>
 </body>
 </html>
