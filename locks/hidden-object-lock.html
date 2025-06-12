@@ -2,15 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hidden Object Lock</title>
+  <title>Find the Hidden Object Lock</title>
   <link rel="stylesheet" href="../theme.css">
 </head>
 <body>
-  <h1>Hidden Object Lock</h1>
-  <p class="directions">Instructions for how to solve or use this lock go here.</p>
-  <!-- Puzzle-specific content would be inserted here -->
+  <h1>Find the Hidden Object Lock</h1>
+  <p class="directions">
+    Click the hidden area in the image below to solve the puzzle.
+  </p>
+
+  <div style="position:relative; display:inline-block;">
+    <img src="../assets/placeholder-image.png" alt="Search Image" style="max-width:100%;">
+    
+    <!-- Correct hotspot (you can move or resize this box) -->
+    <div onclick="solve()" 
+         style="position:absolute; top:50px; left:200px; width:40px; height:40px; background:transparent; cursor:pointer;"></div>
+  </div>
+
+  <p id="result"></p>
+
   <!-- Replace with your own sound files that you uploaded into the assets folder -->
   <audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
   <audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+
+  <script>
+    function solve() {
+      document.getElementById("success").play();
+      document.getElementById("result").textContent = "✅ Correct!";
+    }
+  </script>
 </body>
 </html>
