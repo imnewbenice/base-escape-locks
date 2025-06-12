@@ -2,17 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Escape Room Lock</title>
+  <title>Keypad Lock</title>
   <link rel="stylesheet" href="../theme.css">
 </head>
 <body>
   <h1>Keypad Lock</h1>
-  <p class="directions">/* instructions for how to solve this lock */</p>
-  <div class="puzzle-area">
-    <!-- your puzzle goes here -->
-  </div>
-  <!-- Replace with your own sound files -->
-  <audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
-  <audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+  <p class="directions">Click the numbers on the keypad to display. Submit the correct sequence of numbers on the keypad to successfully unlock this puzzle.</p>
+  
+<div id="display" style="font-size: 1.5em; margin: 10px;">----</div>
+<div style="display: grid; grid-template-columns: repeat(3, 60px); gap: 10px; justify-content: center;">
+  <button onclick="press('1')">1</button><button onclick="press('2')">2</button><button onclick="press('3')">3</button>
+  <button onclick="press('4')">4</button><button onclick="press('5')">5</button><button onclick="press('6')">6</button>
+  <button onclick="press('7')">7</button><button onclick="press('8')">8</button><button onclick="press('9')">9</button>
+  <button onclick="clearEntry()">⟲</button><button onclick="press('0')">0</button><button onclick="checkCode()">Submit</button>
+</div>
+<p id="result"></p>
+<!-- Replace with your own sound files that you uploaded into the assets folder -->
+<audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
+<audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+<script>
+  let code = "";
+  const CORRECT_CODE = "2580";
+  function press(n) {
+    if (code.length < 4) {
+      code += n;
+      document.getElementById("display").textContent = code.padEnd(4, "-");
+    }
+  }
+  function clearEntry() {
+    code = "";
+    document.getElementById("display").textContent = "----";
+    document.getElementById("result").textContent = "";
+  }
+  function checkCode() {
+    const result = document.getElementById("result");
+    if (code === CORRECT_CODE) {
+      document.getElementById("success").play();
+      result.textContent = "✅ Correct!";
+    } else {
+      document.getElementById("fail").play();
+      result.textContent = "❌ Try again!";
+    }
+  }
+</script>
+
 </body>
 </html>
