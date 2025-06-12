@@ -7,10 +7,79 @@
 </head>
 <body>
   <h1>Anagram Lock</h1>
-  <p class="directions">Instructions for how to solve or use this lock go here.</p>
-  <!-- Puzzle-specific content would be inserted here -->
+  <p class="directions">
+    Drag the letters into the correct order to form the answer. Then press submit.
+  </p>
+
+  <div style="display:flex;gap:10px;justify-content:center;margin:10px;" id="tileArea"></div>
+  <div style="display:flex;gap:10px;justify-content:center;" id="slots"></div>
+
+  <div style="margin: 10px;">
+    <button onclick="checkAnagram()">Submit</button>
+    <button onclick="setupAnagram()">⟲ Reset</button>
+  </div>
+
+  <p id="result"></p>
+
   <!-- Replace with your own sound files that you uploaded into the assets folder -->
   <audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
   <audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+
+  <script>
+    const ANSWER = "LEMON";
+
+    function setupAnagram() {
+      const letters = ANSWER.split("").sort(() => Math.random() - 0.5);
+      document.getElementById("tileArea").innerHTML = "";
+      document.getElementById("slots").innerHTML = "";
+
+      letters.forEach((l, i) => {
+        const tile = document.createElement("div");
+        tile.textContent = l;
+        tile.className = "tile";
+        tile.style = "width:40px;height:40px;border:2px solid #000;text-align:center;line-height:40px;cursor:grab;";
+        tile.draggable = true;
+        tile.id = "tile" + i;
+        tile.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("text", tile.id);
+        });
+        document.getElementById("tileArea").appendChild(tile);
+      });
+
+      for (let i = 0; i < ANSWER.length; i++) {
+        const slot = document.createElement("div");
+        slot.className = "slot";
+        slot.style = "width:40px;height:40px;border:2px dashed #aaa;";
+        slot.ondragover = e => e.preventDefault();
+        slot.ondrop = e => {
+          e.preventDefault();
+          const id = e.dataTransfer.getData("text");
+          const dragged = document.getElementById(id);
+          slot.innerHTML = "";
+          slot.appendChild(dragged.cloneNode(true));
+        };
+        document.getElementById("slots").appendChild(slot);
+      }
+    }
+
+    function checkAnagram() {
+      let guess = "";
+      document.querySelectorAll(".slot").forEach(s => {
+        const t = s.querySelector(".tile");
+        guess += t ? t.textContent : "?";
+      });
+
+      const result = document.getElementById("result");
+      if (guess === ANSWER) {
+        document.getElementById("success").play();
+        result.textContent = "✅ Correct!";
+      } else {
+        document.getElementById("fail").play();
+        result.textContent = "❌ Try again!";
+      }
+    }
+
+    setupAnagram();
+  </script>
 </body>
 </html>
