@@ -7,7 +7,7 @@ This is your public-facing **starting page** for students to enter the escape ro
 
 ## ✅ What It Does
 
-- Presents a simple intro message
+- Presents a introduction/instructions message
 - Includes a “Begin Escape Room” button that links to the first puzzle
 - Hides all lock links so students only begin when they’re ready
 - Keeps the editing/test page (`index.html`) separate for teachers or coders
@@ -56,7 +56,27 @@ You’ll see these lines in the code:
 <!-- <audio src="assets/intro-theme.mp3" autoplay loop style="display: none;"></audio> -->
 <!-- <img src="assets/escape-background.png" style="display: none;"> -->
 ```
+---
 
+## 🔗 Want a Sequential Lock Flow?
+
+You can guide students through the puzzles one-by-one like a real escape room.
+
+### How To:
+
+1. Remove some lock links from `index.html`
+2. Instead, place a "Next Puzzle" link at the bottom of each lock page:
+   ```html
+   <a href="directional-lock.html">Next Lock</a>
+   ```
+
+3. On the last page (`room-escaped.html`), celebrate their escape!
+
+---
+
+## 🔐 Optional Gatekeeping Ideas:
+- Require group name before starting
+- Hide links until previous puzzle is solved (via localStorage or teacher unlock)
 ---
 
 ## 🔗 Publishing
@@ -66,5 +86,6 @@ To make this your default homepage:
 2. Or in GitHub Pages, manually set `/start.html` as your launch link
 
 ---
-
 This file is meant to give structure without limitations. Use it your way!
+This file can be edited freely to match your escape room theme and flow.
+
