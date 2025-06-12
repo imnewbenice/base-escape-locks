@@ -11,8 +11,10 @@
     Click the numbers on the keypad to display. Submit the correct sequence of numbers on the keypad to successfully unlock this puzzle.
   </p>
 
-<div id="display" class="lock-display"></div>
+  <!-- Standardized output display box -->
+  <div id="display" class="lock-display"></div>
 
+  <!-- Keypad grid -->
   <div style="display: grid; grid-template-columns: repeat(3, 60px); gap: 10px; justify-content: center;">
     <button onclick="press('1')">1</button>
     <button onclick="press('2')">2</button>
@@ -41,13 +43,13 @@
     function press(n) {
       if (code.length < 4) {
         code += n;
-        document.getElementById("display").textContent = code.padEnd(4, "-");
+        document.getElementById("display").textContent = code;
       }
     }
 
     function clearEntry() {
       code = "";
-      document.getElementById("display").textContent = "----";
+      document.getElementById("display").textContent = "";
       document.getElementById("result").textContent = "";
     }
 
