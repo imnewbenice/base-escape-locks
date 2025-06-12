@@ -1,21 +1,72 @@
 /* theme.css: shared styles for layout and responsiveness */
+
 body {
   font-family: sans-serif;
   text-align: center;
   margin: 0;
   padding: 20px;
+  background-color: #fff;
+  color: #111;
 }
+
 .puzzle-area {
   margin-top: 20px;
 }
+
+.directions {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 button {
   font-size: 1.2em; /* button text size */
   padding: 10px 20px;
   margin: 10px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  background-color: #f0f0f0;
+  cursor: pointer;
 }
+
+button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Consistent display box for all locks */
+.lock-display {
+  font-size: 1.5em;
+  border: 2px solid #ccc;
+  padding: 10px;
+  width: 180px;
+  height: 40px;
+  margin: 10px auto;
+  text-align: center;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Output message style */
+#result {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+/* Responsive layout for mobile */
 @media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
   button {
     font-size: 1em;
     padding: 8px 16px;
+  }
+
+  .lock-display {
+    width: 100%;
+    font-size: 1.2em;
   }
 }
