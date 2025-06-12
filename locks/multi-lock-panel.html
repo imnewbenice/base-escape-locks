@@ -2,15 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Multi Lock Panel</title>
+  <title>Multi-Lock Panel</title>
   <link rel="stylesheet" href="../theme.css">
 </head>
 <body>
-  <h1>Multi Lock Panel</h1>
-  <p class="directions">Instructions for how to solve or use this lock go here.</p>
-  <!-- Puzzle-specific content would be inserted here -->
+  <h1>Multi-Lock Panel</h1>
+  <p class="directions">
+    Check if all locks have been solved. Then press submit to confirm.
+  </p>
+
+  <p>Each lock must be completed to continue.</p>
+
+  <div style="margin: 10px;">
+    <button onclick="checkPanel()">Submit</button>
+  </div>
+
+  <p id="result"></p>
+
   <!-- Replace with your own sound files that you uploaded into the assets folder -->
   <audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
   <audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+
+  <script>
+    // You can update this list to match the lock tracking keys used on your pages
+    const keys = [
+      "keypadSolved",
+      "directionalSolved",
+      "colorSolved",
+      "anagramSolved",
+      "dragSlotSolved",
+      "logicGridSolved"
+    ];
+
+    function checkPanel() {
+      const result = document.getElementById("result");
+      const allSolved = keys.every(k => localStorage.getItem(k) === "true");
+
+      if (allSolved) {
+        document.getElementById("success").play();
+        result.textContent = "✅ All locks are complete!";
+      } else {
+        document.getElementById("fail").play();
+        result.textContent = "❌ Some locks are still incomplete.";
+      }
+    }
+  </script>
 </body>
 </html>
