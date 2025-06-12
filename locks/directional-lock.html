@@ -7,10 +7,52 @@
 </head>
 <body>
   <h1>Directional Lock</h1>
-  <p class="directions">Instructions for how to solve or use this lock go here.</p>
-  <!-- Puzzle-specific content would be inserted here -->
+  <p class="directions">
+    Click the arrows in the correct order. Then press submit to check your answer.
+  </p>
+
+  <div id="directionInput" style="font-size: 1.5em; margin: 10px;">(none)</div>
+
+  <div style="margin: 10px;">
+    <button onclick="press('↑')">↑</button>
+    <button onclick="press('↓')">↓</button>
+    <button onclick="press('←')">←</button>
+    <button onclick="press('→')">→</button>
+    <button onclick="clearSequence()">⟲</button>
+    <button onclick="checkSequence()">Submit</button>
+  </div>
+
+  <p id="result"></p>
+
   <!-- Replace with your own sound files that you uploaded into the assets folder -->
   <audio id="success" src="../assets/correct-answer-sound.mp3"></audio>
   <audio id="fail" src="../assets/incorrect-answer-sound.mp3"></audio>
+
+  <script>
+    let input = "";
+    const CORRECT_SEQUENCE = "↑↓←→";
+
+    function press(dir) {
+      input += dir;
+      document.getElementById("directionInput").textContent = input;
+    }
+
+    function clearSequence() {
+      input = "";
+      document.getElementById("directionInput").textContent = "(none)";
+      document.getElementById("result").textContent = "";
+    }
+
+    function checkSequence() {
+      const result = document.getElementById("result");
+      if (input === CORRECT_SEQUENCE) {
+        document.getElementById("success").play();
+        result.textContent = "✅ Correct!";
+      } else {
+        document.getElementById("fail").play();
+        result.textContent = "❌ Try again!";
+      }
+    }
+  </script>
 </body>
 </html>
